@@ -1,4 +1,5 @@
 #include<stdio.h>
+// 按照所在列遍历所有行的可能性
 void EQ(int play[][9],int *sol,int num);
 int cross(int play[][9],int *sol,int indexr,int indexc);
 int rowe(int play[][9],int *sol,int indexr,int indexc);
@@ -6,12 +7,11 @@ int main()
 {
 	int play[9][9]={{0},{0},{0},{0},{0},{0},{0},{0},{0}};
 	int sol[9]={0};
-	EQ(play,sol,1);
+	EQ(play,sol,1);//从第一列开始
 }
 
-
-
-int rowe(int play[][9],int *sol,int indexr,int indexc)
+//判定当前位置所在行是否有已填值
+int rowe(int play[][9],int indexr)
 {
 	int i=1;
 	for(;i<9;i++)
@@ -20,8 +20,8 @@ int rowe(int play[][9],int *sol,int indexr,int indexc)
 	return 1;
 }
 
-
-int cross(int play[][9],int *sol,int indexr,int indexc)
+//判定当前位置的斜向十字是否已填
+int cross(int play[][9],int indexr,int indexc)
 {
 	int i,j;
 	i = indexr;
@@ -61,21 +61,16 @@ void EQ(int play[][9],int *sol,int num)
 			printf("%d  ",sol[k]);
 		printf("\n");
 	}
-	for(;i<=8;i++){
-		if(cross(play,sol,i,num)&&rowe(play,sol,i,num)){
-			
-			play[i][num]=1;
-			sol[num]=i;
-			EQ(play,sol,num+1);
-			play[i][num]=0;
-		}	
+	else if(num < 9)
+	{
+		for(;i<=8;i++){
+			if(cross(play,sol,i,num)&&rowe(play,sol,i,num)){
+
+				play[i][num]=1;
+				sol[num]=i;
+				EQ(play,sol,num+1);
+				play[i][num]=0;
+			}	
+		}
 	}
 }
-
-
-
-
-
-
-
-
